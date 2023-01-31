@@ -33,8 +33,8 @@
 #define NextLine						0xc0
 
 //LCD delays
-#define LCD_PowerOn_Delay				300
-#define LCD_instruction_Delay			60
+#define LCD_PowerOn_Delay				100
+#define LCD_instruction_Delay			30
 
 //LCD FUNCTIONS
 void LCD_COMMAND(char x);
