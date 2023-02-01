@@ -46,7 +46,11 @@ void sev_seg_disable()
 
 void sev_seg_1_displaynumper(int N)
 {	int bite;
-	Sev_Seg_1_Port= Sev_Seg_1_Pins;
+	set(Sev_Seg_1_Port,Sev_Seg_1_Pin1);
+	set(Sev_Seg_1_Port,Sev_Seg_1_Pin2);
+	set(Sev_Seg_1_Port,Sev_Seg_1_Pin3);
+	set(Sev_Seg_1_Port,Sev_Seg_1_Pin4);
+		
 	if (N <=9)
 	{
 		for (int i=4;i<8;i++)

@@ -16,7 +16,10 @@
 #define Sev_Seg_1_Port PORTA		//Sev_Seg_1_Port_State and Sev_Seg_2_Port_State in port A
 #define Sev_Seg_2_Port PORTB
 #define Sev_Seg_en PB3
-#define Sev_Seg_1_Pins 0b11111101
+#define Sev_Seg_1_Pin1 PA4
+#define Sev_Seg_1_Pin2 PA5
+#define Sev_Seg_1_Pin3 PA6
+#define Sev_Seg_1_Pin4 PA7
 #define Sev_Seg_2_Pin1 PB4
 #define Sev_Seg_2_Pin2 PB5
 #define Sev_Seg_2_Pin3 PB6

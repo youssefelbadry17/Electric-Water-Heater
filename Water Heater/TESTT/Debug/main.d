@@ -15,7 +15,8 @@ main.d main.o: .././main.c .././APP.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  .././EEPROM.h .././Seven_Segment.h .././LCD.h .././buzzer.h .././LM35.h \
- .././LED.h .././fan_motors.h .././Interupt.h .././TIMERS.h
+ .././LED.h .././fan_motors.h .././Interupt.h .././TIMERS.h \
+ .././BitWiseOperation.h
 
 .././APP.h:
 
@@ -66,3 +67,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././Interupt.h:
 
 .././TIMERS.h:
+
+.././BitWiseOperation.h:

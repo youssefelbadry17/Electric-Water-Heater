@@ -11,9 +11,9 @@
 unsigned char state = OFF;
 unsigned char set_Temperture = initial_Temperture;
 unsigned int temp = 0;
-//volatile int tick_counter = 0;        //counter for timer ticks
-//int delay = 5;
-//int seconds_counter = 5;
+volatile int tick_counter = 0;        //counter for timer ticks
+int delay = 5;
+int seconds_counter = 5;
 unsigned char prev_state = OFF; 
 
 
@@ -78,6 +78,7 @@ void Mode_OFF()
 	Buzzer_stop();
 	interupts_OFF();
 	sev_seg_disable();
+	prev_state = OFF;
 }
 
 void Mode_ON()
@@ -96,7 +97,7 @@ void Mode_ON()
 
 	Temperture = avg_tempreture();
 	sev_seg_enable();
-	if (temp != Temperture || prev_state == set_tempe)
+	if (temp != Temperture || prev_state == set_tempe || prev_state == OFF)
 	{	
 		sev_seg_1_displaynumper(Temperture/10);
 		sev_seg_2_displaynumper(Temperture%10);
@@ -115,11 +116,20 @@ void Mode_ON()
 
 	if (Temperture>80 || Temperture<30)
 		{
-			Buzzer_on();
-			_delay_ms(50);
-			LCD_Show_temp(Temperture);
-			_delay_ms(100);
 			
+			if(read(buzzer_port,buzzer_pin) !=1)
+			{	
+				Buzzer_on();
+				LCD_Clear();
+				_delay_ms(10);
+				LCD_Show_temp(Temperture);
+			    LCD_String(" !warning!");
+			}
+
+			else
+			{
+				// do nothing
+			}
 		}
 	else
 		{
@@ -165,17 +175,28 @@ void Mode_ON()
 }
 
 void Mode_set_tepmerture()
-{	//unsigned char Temperture = 0 ;
+{	unsigned char Temperture = 0 ;
 	//EEPROM_readByte(BLOCK_0,addresse,&Temperture);
 	LCD_Clear();
 	_delay_ms(10);
+	Buzzer_stop();
+	
 	LCD_String("SET TEMP MODE");
 	_delay_ms(100);
-	LCD_Show_set_temp(set_Temperture);
+
+	if (Temperture != set_Temperture)
+	{
+		LCD_Show_set_temp(set_Temperture);
+	}
+	else
+	{
+		Temperture = set_Temperture;
+	}
 	Sev_seg_blink(set_Temperture);
+	
 	LED_off();
 	Fans_OFF();
-	/*if (tick_counter >= 625)
+	if (tick_counter >= 625)
 	{
 		seconds_counter++;
 		tick_counter = 0;
@@ -188,7 +209,8 @@ void Mode_set_tepmerture()
 			interupts_ON();
 			timer_OFF();
 		}
-	}*/
+	}
+	
 	EEPROM_writeByte(BLOCK_0,addresse,set_Temperture);
 	 
 	state = ON;
@@ -218,8 +240,6 @@ ISR(INT0_vect)
 	if (state != set_tempe)
 	{
 		state = set_tempe;
-		LCD_Show_set_temp(set_Temperture);
-		
 	}
 	else
 	{
@@ -233,7 +253,8 @@ ISR(INT0_vect)
 		}
 	}
 	state = set_tempe;
-
+	timer_Init();
+	seconds_counter = 0;
 }
 
 // DOWN BUTTON
@@ -242,7 +263,6 @@ ISR(INT1_vect)
 	if (state != set_tempe)
 	{
 		state = set_tempe;
-		LCD_Show_set_temp(set_Temperture);
 	}
 	else
 	{
@@ -256,7 +276,8 @@ ISR(INT1_vect)
 		}
 	}
 	state = set_tempe;
-
+	timer_Init();
+	seconds_counter = 0;
 }
 
 void Sev_seg_blink(unsigned char TEMP)
@@ -271,8 +292,8 @@ void Sev_seg_blink(unsigned char TEMP)
 	   }
 }
 
-/*ISR(TIMER0_COMP_vect)
+ISR(TIMER0_COMP_vect)
 {
 	tick_counter++;
-}*/
+}
 

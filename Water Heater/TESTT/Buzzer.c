@@ -12,9 +12,7 @@ void Buzzer_init()
 
 void Buzzer_on ()
 {
-	set(buzzer_port,buzzer_pin);
-	LCD_Clear();
-	LCD_String("!!!warning!!!");
+	set(buzzer_port,buzzer_pin);	
 }
 
 void Buzzer_stop()
